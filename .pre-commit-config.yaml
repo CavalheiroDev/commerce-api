@@ -2,7 +2,7 @@
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v2.4.0
+  rev: v4.3.0
   hooks:
   - id: check-ast
   - id: trailing-whitespace
@@ -10,7 +10,7 @@ repos:
   - id: end-of-file-fixer
 
 - repo: https://github.com/asottile/add-trailing-comma
-  rev: v2.1.0
+  rev: v2.2.3
   hooks:
   - id: add-trailing-comma
 
@@ -27,26 +27,26 @@ repos:
   hooks:
   - id: black
     name: Format with Black
-    entry: poetry run black
+    entry: black --check .
     language: system
     types: [python]
 
   - id: autoflake
     name: autoflake
-    entry: poetry run autoflake
+    entry: autoflake .
     language: system
     types: [python]
     args: [--in-place, --remove-all-unused-imports, --remove-duplicate-keys]
 
   - id: isort
     name: isort
-    entry: poetry run isort
+    entry: isort .
     language: system
     types: [python]
 
   - id: flake8
     name: Check with Flake8
-    entry: poetry run flake8
+    entry: flake8
     language: system
     pass_filenames: false
     types: [python]
@@ -54,7 +54,7 @@ repos:
 
   - id: mypy
     name: Validate types with MyPy
-    entry: poetry run mypy
+    entry: mypy .
     language: system
     types: [python]
     pass_filenames: false
