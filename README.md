@@ -2,23 +2,19 @@
 
 This project was generated using fastapi_template.
 
-## Poetry
-
-This project uses poetry. It's a modern dependency management
-tool.
+## PIP
 
 To run the project use this set of commands:
 
 ```bash
-poetry install
-poetry run python -m commerce_api
+make create-venv
+make runserver
 ```
 
 This will start the server on the configured host.
 
 You can find swagger documentation at `/api/docs`.
 
-You can read more about poetry here: https://python-poetry.org/
 
 ## Docker
 

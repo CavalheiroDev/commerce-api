@@ -34,6 +34,7 @@ create-venv: .create-venv setup-dev
 	rm -fr .eggs/
 	find . -name '*.egg-info' -exec rm -fr {} +
 	find . -name '*.egg' -exec rm -f {} +
+	find . -name '*cache' -exec rm -rf {} +
 
 .clean-pyc: ## remove Python file artifacts
 	find . -name '*.pyc' -exec rm -f {} +
@@ -57,7 +58,7 @@ black:
 
 flake8:
 	echo "Running flake8"
-	flake8 --count .
+	flake8
 
 mypy:
 	echo "Running mypy"

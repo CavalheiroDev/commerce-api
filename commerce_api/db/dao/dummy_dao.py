@@ -20,7 +20,7 @@ class DummyDAO:
 
         :param name: name of a dummy.
         """
-        self.session.add(DummyModel(name=name))
+        self.session.add(DummyModel(name=name))  # type: ignore
 
     async def get_all_dummies(self, limit: int, offset: int) -> List[DummyModel]:
         """

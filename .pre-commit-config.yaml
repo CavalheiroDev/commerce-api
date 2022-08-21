@@ -33,7 +33,7 @@ repos:
 
   - id: autoflake
     name: autoflake
-    entry: autoflake .
+    entry: autoflake
     language: system
     types: [python]
     args: [--in-place, --remove-all-unused-imports, --remove-duplicate-keys]
@@ -58,5 +58,3 @@ repos:
     language: system
     types: [python]
     pass_filenames: false
-    args:
-    - "commerce_api"
