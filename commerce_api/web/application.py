@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from fastapi.responses import UJSONResponse
 from fastapi.staticfiles import StaticFiles
 
+from commerce_api.web.api.docs import docs_router
 from commerce_api.web.api.router import api_router
 from commerce_api.web.lifetime import register_shutdown_event, register_startup_event
 
@@ -34,6 +35,7 @@ def get_app() -> FastAPI:
 
     # Main router for the API.
     app.include_router(router=api_router, prefix="/api")
+    app.include_router(router=docs_router)
     # Adds static directory.
     # This directory is used to access swagger files.
     app.mount(
