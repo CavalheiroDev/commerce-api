@@ -38,12 +38,6 @@ repos:
     types: [python]
     args: [--in-place, --remove-all-unused-imports, --remove-duplicate-keys]
 
-  - id: isort
-    name: isort
-    entry: isort .
-    language: system
-    types: [python]
-
   - id: flake8
     name: Check with Flake8
     entry: flake8

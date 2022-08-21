@@ -1,22 +1,11 @@
-import enum
 from pathlib import Path
 from tempfile import gettempdir
 
-from pydantic import BaseSettings
+from pydantic import BaseSettings, Field
+from utils.enums.log_level import LogLevel
 from yarl import URL
 
 TEMP_DIR = Path(gettempdir())
-
-
-class LogLevel(str, enum.Enum):  # noqa: WPS600
-    """Possible log levels."""
-
-    NOTSET = "NOTSET"
-    DEBUG = "DEBUG"
-    INFO = "INFO"
-    WARNING = "WARNING"
-    ERROR = "ERROR"
-    FATAL = "FATAL"
 
 
 class Settings(BaseSettings):
@@ -27,25 +16,25 @@ class Settings(BaseSettings):
     with environment variables.
     """
 
-    host: str = "127.0.0.1"
-    port: int = 8000
+    host: str = Field(default="127.0.0.1", env="SERVER_HOST")
+    port: int = Field(default=8080, env="SERVER_PORT")  # noqa: WPS432
     # quantity of workers for uvicorn
-    workers_count: int = 1
+    workers_count: int = Field(default=1, env="SERVER_WORKERS")
     # Enable uvicorn reloading
-    reload: bool = False
+    reload: bool = Field(default=True, env="SERVER_RELOAD")
 
     # Current environment
-    environment: str = "dev"
+    environment_name: str = Field(default="LOCAL", env="ENVIRONMENT_NAME")
 
-    log_level: LogLevel = LogLevel.INFO
+    log_level: LogLevel = Field(default=LogLevel.INFO, env="LOG_LEVEL")
 
     # Variables for the database
-    db_host: str = "localhost"
-    db_port: int = 5432
-    db_user: str = "commerce_api"
-    db_pass: str = "commerce_api"
-    db_base: str = "commerce_api"
-    db_echo: bool = False
+    db_host: str = Field(default="localhost", env="DB_HOST")
+    db_port: int = Field(default=5432, env="DB_PORT")  # noqa: WPS432
+    db_user: str = Field(default="commerce_api", env="DB_USER")
+    db_pass: str = Field(default="commerce_api", env="DB_PASS")
+    db_name: str = Field(default="commerce_api", env="DB_NAME")
+    db_echo: bool = Field(default=False, env="DB_ECHO")
 
     @property
     def db_url(self) -> URL:
@@ -60,12 +49,11 @@ class Settings(BaseSettings):
             port=self.db_port,
             user=self.db_user,
             password=self.db_pass,
-            path=f"/{self.db_base}",
+            path=f"/{self.db_name}",
         )
 
     class Config:
         env_file = ".env"
-        env_prefix = "COMMERCE_API_"
         env_file_encoding = "utf-8"
 
 
