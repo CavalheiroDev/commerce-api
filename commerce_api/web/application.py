@@ -1,4 +1,3 @@
-from importlib import metadata
 from pathlib import Path
 
 from fastapi import FastAPI
@@ -22,7 +21,7 @@ def get_app() -> FastAPI:
     app = FastAPI(
         title="commerce_api",
         description="",
-        version=metadata.version("commerce_api"),
+        version="0.1.0",
         docs_url=None,
         redoc_url=None,
         openapi_url="/api/openapi.json",
