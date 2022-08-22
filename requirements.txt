@@ -4,3 +4,5 @@ pydantic[dotenv]==1.9.0
 SQLAlchemy[asyncio]==1.4.40
 alembic==1.7.7
 asyncpg[sa]==0.25.0
+yarl==1.8.1
+ujson==5.4.0
