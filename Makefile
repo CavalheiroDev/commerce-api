@@ -9,16 +9,7 @@ DATABASE_PASS := postgres
 setup-dev: .pip
 	pip uninstall -y typing
 	pip install -U setuptools
-	-apk --update --upgrade add gcc musl-dev jpeg-dev zlib-dev libffi-dev cairo-dev pango-dev gdk-pixbuf-dev
-	-sudo apt-get install build-essential python3-dev python3-pip python3-setuptools python3-wheel python3-cffi libcairo2 libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixbuf2.0-0 libffi-dev shared-mime-info
 	pip install -r requirements-dev.txt
-
-setup: .pip
-	pip uninstall -y typing
-	pip install -U setuptools
-	-apk --update --upgrade add gcc musl-dev jpeg-dev zlib-dev libffi-dev cairo-dev pango-dev gdk-pixbuf-dev
-	-sudo apt-get install build-essential python3-dev python3-pip python3-setuptools python3-wheel python3-cffi libcairo2 libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixbuf2.0-0 libffi-dev shared-mime-info
-	pip install -r requirements.txt
 
 .create-venv:
 	pyenv install -s $(PYTHON_VERSION)
@@ -52,20 +43,20 @@ create-venv: .create-venv setup-dev
 
 clean: .clean-build .clean-pyc .clean-test ## remove all build, test, coverage and Python artifacts
 
-black:
-	echo "Running black"
-	black --check .
+alembic-revision:
+	alembic revision --autogenerate -m "auto"
 
-flake8:
-	echo "Running flake8"
-	flake8
+alembic-upgrade-head:
+	alembic upgrade head
 
-mypy:
-	echo "Running mypy"
-	mypy .
+alembic-upgrade-one:
+	alembic upgrade +1
 
-code-convention: black flake8 mypy
+alembic-downgrade-one:
+	alembic downgrade -1
 
-test:
-	# "Running unit tests"
-	 pytest -v --cov-report=term-missing --cov-report=html --cov-report=xml --cov=nix_proxy --cov-fail-under=80
+alembic-downgrade-base:
+	alembic downgrade base
+
+alembic-history:
+	alembic history -i
