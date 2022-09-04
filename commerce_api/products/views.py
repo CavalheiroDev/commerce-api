@@ -1,4 +1,5 @@
 from typing import List
+from uuid import UUID
 
 from fastapi import APIRouter
 from fastapi import status
@@ -76,7 +77,7 @@ async def filter_by_name(
     },
 )
 async def update_product(
-    product_id: str,
+    product_id: UUID,
     new_product_object: ProductInputDTO,
     products_repository: ProductsRepository = Depends(),
 ):
