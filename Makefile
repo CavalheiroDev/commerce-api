@@ -60,3 +60,7 @@ alembic-downgrade-base:
 
 alembic-history:
 	alembic history -i
+
+
+run-postgres:
+	docker start commerce_api 2>/dev/null || docker run --name commerce_api -p "5432:5432" -e "POSTGRES_PASSWORD=commerce_api" -e "POSTGRES_USER=commerce_api" -e "POSTGRES_DB=commerce_api" -d postgres:13.6-bullseye
