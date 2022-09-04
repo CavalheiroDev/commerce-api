@@ -5,7 +5,7 @@ from fastapi import status
 from fastapi.param_functions import Depends
 
 from commerce_api.products.repository.products_repository import ProductsRepository
-from commerce_api.web.api.products.schemas import (
+from commerce_api.products.schemas import (
     ProductInputDTO,
     ProductAlreadyExists,
     ProductOutputDTO,
@@ -36,7 +36,10 @@ async def create_product(
     '/',
     status_code=status.HTTP_200_OK,
     response_model=List[ProductOutputDTO],
-    responses={200: {'model': List[ProductOutputDTO]}, 400: {'model': None}},
+    responses={
+        200: {'model': List[ProductOutputDTO]},
+        400: {'model': None},
+    },
 )
 async def list_products(
     offset: int = 0,
@@ -51,7 +54,9 @@ async def list_products(
     '/{name}',
     status_code=status.HTTP_200_OK,
     response_model=ProductOutputDTO,
-    responses={200: {'model': ProductOutputDTO}},
+    responses={
+        200: {'model': ProductOutputDTO},
+    },
 )
 async def filter_by_name(
     name: str,
