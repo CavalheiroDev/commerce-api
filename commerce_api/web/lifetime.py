@@ -2,7 +2,7 @@ from asyncio import current_task
 from typing import Awaitable, Callable
 
 from fastapi import FastAPI
-from fastapi.responses import JSONResponse
+from fastapi.responses import UJSONResponse
 from sqlalchemy.ext.asyncio import (
     AsyncSession,
     async_scoped_session,
@@ -85,7 +85,7 @@ def register_custom_exceptions(app: FastAPI) -> None:
         request: Request,
         exception: ObjectAlreadyExistsError,
     ):
-        return JSONResponse(
+        return UJSONResponse(
             status_code=exception.status_code,
             content={'message': exception.message, 'code': exception.code},
         )
@@ -95,7 +95,7 @@ def register_custom_exceptions(app: FastAPI) -> None:
         request: Request,
         exception: ObjectNotExistsError,
     ):
-        return JSONResponse(
+        return UJSONResponse(
             status_code=exception.status_code,
             content={'message': exception.message, 'code': exception.code},
         )
