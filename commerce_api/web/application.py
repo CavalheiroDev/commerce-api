@@ -6,7 +6,11 @@ from fastapi.staticfiles import StaticFiles
 
 from commerce_api.web.api.docs import docs_router
 from commerce_api.web.api.router import api_router
-from commerce_api.web.lifetime import register_shutdown_event, register_startup_event
+from commerce_api.web.lifetime import (
+    register_shutdown_event,
+    register_startup_event,
+    register_custom_exceptions,
+)
 
 APP_ROOT = Path(__file__).parent.parent
 
@@ -20,28 +24,29 @@ def get_app() -> FastAPI:
     :return: application.
     """
     app = FastAPI(
-        title="commerce_api",
-        description="",
-        version="0.1.0",
+        title='commerce_api',
+        description='',
+        version='0.1.0',
         docs_url=None,
         redoc_url=None,
-        openapi_url="/api/openapi.json",
+        openapi_url='/api/openapi.json',
         default_response_class=UJSONResponse,
     )
 
     # Adds startup and shutdown events.
     register_startup_event(app)
     register_shutdown_event(app)
+    register_custom_exceptions(app)
 
     # Main router for the API.
-    app.include_router(router=api_router, prefix="/api")
+    app.include_router(router=api_router, prefix='/api')
     app.include_router(router=docs_router)
     # Adds static directory.
     # This directory is used to access swagger files.
     app.mount(
-        "/static",
-        StaticFiles(directory=APP_ROOT / "static"),
-        name="static",
+        '/static',
+        StaticFiles(directory=APP_ROOT / 'static'),
+        name='static',
     )
 
     return app

@@ -2,14 +2,18 @@ from asyncio import current_task
 from typing import Awaitable, Callable
 
 from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import (
     AsyncSession,
     async_scoped_session,
     create_async_engine,
 )
 from sqlalchemy.orm import sessionmaker
+from starlette.requests import Request
 
 from commerce_api.settings import settings
+from utils.exceptions.object_already_exists import ObjectAlreadyExistsError
+from utils.exceptions.object_not_exists import ObjectNotExistsError
 
 
 def _setup_db(app: FastAPI) -> None:  # pragma: no cover
@@ -48,7 +52,7 @@ def register_startup_event(
     :return: function that actually performs actions.
     """
 
-    @app.on_event("startup")
+    @app.on_event('startup')
     async def _startup() -> None:  # noqa: WPS430
         _setup_db(app)
         pass  # noqa: WPS420
@@ -66,10 +70,32 @@ def register_shutdown_event(
     :return: function that actually performs actions.
     """
 
-    @app.on_event("shutdown")
+    @app.on_event('shutdown')
     async def _shutdown() -> None:  # noqa: WPS430
         await app.state.db_engine.dispose()
 
         pass  # noqa: WPS420
 
     return _shutdown
+
+
+def register_custom_exceptions(app: FastAPI) -> None:
+    @app.exception_handler(ObjectAlreadyExistsError)
+    async def object_already_exists(
+        request: Request,
+        exception: ObjectAlreadyExistsError,
+    ):
+        return JSONResponse(
+            status_code=exception.status_code,
+            content={'message': exception.message, 'code': exception.code},
+        )
+
+    @app.exception_handler(ObjectNotExistsError)
+    async def object_not_exists(
+        request: Request,
+        exception: ObjectNotExistsError,
+    ):
+        return JSONResponse(
+            status_code=exception.status_code,
+            content={'message': exception.message, 'code': exception.code},
+        )
