@@ -52,19 +52,19 @@ async def list_products(
 
 
 @router.get(
-    '/{name}',
+    '/{product_id}',
     status_code=status.HTTP_200_OK,
     response_model=ProductOutputDTO,
     responses={
         200: {'model': ProductOutputDTO},
     },
 )
-async def filter_by_name(
-    name: str,
+async def filter_by_id(
+    product_id: UUID,
     products_repository: ProductsRepository = Depends(),
 ):
-    products = await products_repository.filter(name=name)
-    return products
+    product = await products_repository.filter(id=str(product_id))
+    return product
 
 
 @router.put(
