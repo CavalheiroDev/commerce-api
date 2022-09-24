@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Union
 from uuid import UUID
 
 from pydantic import BaseModel
@@ -15,7 +14,7 @@ class ProductInputDTO(BaseModel):
 
 
 class ProductOutputDTO(BaseModel):
-    id: Union[UUID, str]
+    id: UUID
     name: str
     stock_quantity: int
     price: int
