@@ -1,4 +1,5 @@
 import uuid
+from abc import abstractmethod
 from typing import Any, Tuple
 
 from sqlalchemy import Table, Column, DateTime
@@ -40,3 +41,7 @@ class Base:
     __tablename__: str
     __table__: Table
     __table_args__: Tuple[Any, ...]
+
+    @abstractmethod
+    def to_dict(self) -> dict:
+        raise NotImplementedError()

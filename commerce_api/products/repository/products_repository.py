@@ -25,7 +25,7 @@ class ProductsRepository(IRepository):
             raise ProductAlreadyExistsError()
 
         new_product = await self._product_dao.create(**data)
-        await self._products_events_sender.sender(data)
+        await self._products_events_sender.sender(new_product.to_dict())
         return new_product
 
     async def update(self, product_id: Union[str, UUID], **fields) -> model:
@@ -34,6 +34,7 @@ class ProductsRepository(IRepository):
             raise ProductNotExistsError()
 
         updated_product = await self._product_dao.update(product, **fields)
+        await self._products_events_sender.sender(updated_product.to_dict())
         return updated_product
 
     async def filter(self, **fields) -> model:
