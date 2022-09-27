@@ -64,3 +64,6 @@ alembic-history:
 
 run-postgres:
 	docker start commerce_api 2>/dev/null || docker run --name commerce_api -p "5432:5432" -e "POSTGRES_PASSWORD=commerce_api" -e "POSTGRES_USER=commerce_api" -e "POSTGRES_DB=commerce_api" -d postgres:13.6-bullseye
+
+run-rabbit:
+	docker start commerce_api_rabbit 2>/dev/null || docker run -d --name commerce_api_rabbit -e RABBITMQ_DEFAULT_VHOST=commerce_api -p 5672:5672 -p 15672:15672 rabbitmq:3.10-management

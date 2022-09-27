@@ -11,6 +11,7 @@ from sqlalchemy.ext.asyncio import (
 from sqlalchemy.orm import sessionmaker
 from starlette.requests import Request
 
+from commerce_api.events.lifetime import init_rabbit, shutdown_rabbit
 from commerce_api.settings import settings
 from utils.exceptions.object_already_exists import ObjectAlreadyExistsError
 from utils.exceptions.object_not_exists import ObjectNotExistsError
@@ -55,6 +56,7 @@ def register_startup_event(
     @app.on_event('startup')
     async def _startup() -> None:  # noqa: WPS430
         _setup_db(app)
+        init_rabbit(app)
         pass  # noqa: WPS420
 
     return _startup
@@ -74,6 +76,7 @@ def register_shutdown_event(
     async def _shutdown() -> None:  # noqa: WPS430
         await app.state.db_engine.dispose()
 
+        await shutdown_rabbit(app)
         pass  # noqa: WPS420
 
     return _shutdown
