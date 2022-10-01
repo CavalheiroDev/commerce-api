@@ -5,14 +5,14 @@ from fastapi.responses import UJSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from commerce_api.docs import docs_router
-from commerce_api.web.lifetime import (
+from commerce_api.lifetime import (
     register_shutdown_event,
     register_startup_event,
     register_custom_exceptions,
 )
-from commerce_api.web.router import api_router
+from commerce_api.router import api_router
 
-APP_ROOT = Path(__file__).parent.parent
+APP_ROOT = Path(__file__).parent
 
 
 def get_app() -> FastAPI:

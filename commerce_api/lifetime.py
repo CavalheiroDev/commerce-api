@@ -1,7 +1,7 @@
 from asyncio import current_task
 from typing import Awaitable, Callable
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.responses import UJSONResponse
 from sqlalchemy.ext.asyncio import (
     AsyncSession,
@@ -9,7 +9,6 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 from sqlalchemy.orm import sessionmaker
-from starlette.requests import Request
 
 from commerce_api.events.lifetime import init_rabbit, shutdown_rabbit
 from commerce_api.settings import settings

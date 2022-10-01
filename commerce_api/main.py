@@ -6,7 +6,7 @@ from commerce_api.settings import settings
 def main() -> None:
     """Entrypoint of the application."""
     uvicorn.run(
-        "commerce_api.web.application:get_app",
+        'commerce_api.application:get_app',
         workers=settings.workers_count,
         host=settings.host,
         port=settings.port,
@@ -16,5 +16,5 @@ def main() -> None:
     )
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

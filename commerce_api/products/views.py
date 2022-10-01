@@ -29,7 +29,7 @@ async def create_product(
     new_product_object: ProductInputDTO,
     products_repository: ProductsRepository = Depends(),
 ):
-    new_product = await products_repository.create(data=new_product_object.dict())
+    new_product = await products_repository.create_product(data=new_product_object.dict())
     return new_product
 
 
@@ -47,7 +47,7 @@ async def list_products(
     limit: int = 10,
     products_repository: ProductsRepository = Depends(),
 ):
-    products = await products_repository.get_paginated(offset=offset, limit=limit)
+    products = await products_repository.get_paginated_products(offset=offset, limit=limit)
     return products
 
 
@@ -63,7 +63,7 @@ async def filter_by_id(
     product_id: UUID,
     products_repository: ProductsRepository = Depends(),
 ):
-    product = await products_repository.filter(id=str(product_id))
+    product = await products_repository.find_by_product_id(product_id=str(product_id))
     return product
 
 
@@ -81,7 +81,7 @@ async def update_product(
     new_product_object: ProductInputDTO,
     products_repository: ProductsRepository = Depends(),
 ):
-    updated_product = await products_repository.update(
+    updated_product = await products_repository.update_product(
         product_id,
         **new_product_object.dict()
     )

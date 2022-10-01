@@ -4,12 +4,13 @@ from tempfile import gettempdir
 from pydantic import BaseSettings, Field
 from yarl import URL
 
+from commerce_api.settings.contracts import ISettings
 from utils.enums.log_level import LogLevel
 
 TEMP_DIR = Path(gettempdir())
 
 
-class Settings(BaseSettings):
+class Settings(BaseSettings, ISettings):
     """
     Application settings.
 
@@ -37,6 +38,7 @@ class Settings(BaseSettings):
     db_name: str = Field(default='commerce_api', env='DB_NAME')
     db_echo: bool = Field(default=False, env='DB_ECHO')
 
+    # Variables for the rabbitmq
     rabbit_host: str = Field(default='localhost', env='RABBIT_HOST')
     rabbit_port: int = Field(default=5672, env='RABBIT_PORT')
     rabbit_user: str = Field(default='guest', env='RABBIT_USER')
@@ -82,4 +84,4 @@ class Settings(BaseSettings):
         env_file_encoding = 'utf-8'
 
 
-settings = Settings()
+settings: ISettings = Settings()

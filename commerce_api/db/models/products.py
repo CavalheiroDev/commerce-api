@@ -2,9 +2,10 @@ from sqlalchemy.sql.schema import Column
 from sqlalchemy.sql.sqltypes import String, Integer
 
 from commerce_api.db.base import Base
+from commerce_api.products.entity import ProductsEntity
 
 
-class Products(Base):
+class Products(Base, ProductsEntity):
     __tablename__ = 'PRODUCTS'
 
     name = Column('NAME', String(length=200), nullable=False, unique=True)  # noqa: WPS432
