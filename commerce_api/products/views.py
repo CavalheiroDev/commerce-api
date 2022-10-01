@@ -1,9 +1,7 @@
 from typing import List
 from uuid import UUID
 
-from fastapi import APIRouter
-from fastapi import status
-from fastapi.param_functions import Depends
+from fastapi import APIRouter, status, Depends, Body
 
 from commerce_api.products.repository.products_repository import ProductsRepository
 from commerce_api.products.schemas import (
@@ -12,6 +10,7 @@ from commerce_api.products.schemas import (
     ProductOutputDTO,
     ProductNotExists,
 )
+from commerce_api.products.services import ProductDbCreator
 
 router = APIRouter()
 
@@ -26,10 +25,10 @@ router = APIRouter()
     },
 )
 async def create_product(
-    new_product_object: ProductInputDTO,
-    products_repository: ProductsRepository = Depends(),
+    new_product_object: ProductInputDTO = Body(),
+    product_db_creator: ProductDbCreator = Depends(),
 ):
-    new_product = await products_repository.create_product(data=new_product_object.dict())
+    new_product = await product_db_creator.create_product(data=new_product_object.dict())
     return new_product
 
 

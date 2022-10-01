@@ -14,7 +14,7 @@ class EventsSender:
         return super().__new__(cls)
 
     @abstractmethod
-    async def sender(self, event) -> None:
+    async def send_event(self, event) -> None:
         raise NotImplementedError()
 
     @abstractmethod
