@@ -10,7 +10,7 @@ from commerce_api.products.schemas import (
     ProductOutputDTO,
     ProductNotExists,
 )
-from commerce_api.products.services import ProductDbCreator
+from commerce_api.products.services import ProductDbCreator, ProductDbUpdater
 
 router = APIRouter()
 
@@ -77,11 +77,8 @@ async def filter_by_id(
 )
 async def update_product(
     product_id: UUID,
-    new_product_object: ProductInputDTO,
-    products_repository: ProductsRepository = Depends(),
+    new_product_data: ProductInputDTO,
+    product_db_updater: ProductDbUpdater = Depends(),
 ):
-    updated_product = await products_repository.update_product(
-        product_id,
-        **new_product_object.dict()
-    )
+    updated_product = await product_db_updater.update_product(product_id=product_id, data=new_product_data.dict())
     return updated_product
